@@ -1,0 +1,184 @@
+---
+---
+<section id="canales">
+  <div class="container">
+    <div class="canales-wrapper">
+      <div class="canales-text reveal">
+        <p class="s-label">Multiplataforma</p>
+        <h2 class="s-title">Un agente,<br>todos tus canales</h2>
+        <p>El mismo agente que atiende tu WhatsApp responde mensajes en Instagram y comentarios en TikTok — con el mismo tono y la misma información de tu negocio, las 24 horas.</p>
+        <div class="canal-list">
+          <div class="canal-item active" id="tab-wa" data-platform="wa">
+            <div class="canal-dot"></div>
+            <div><strong>WhatsApp Business</strong><span>Conversaciones 1:1, catálogo, agendamiento de citas</span></div>
+          </div>
+          <div class="canal-item" id="tab-ig" data-platform="ig">
+            <div class="canal-dot"></div>
+            <div><strong>Instagram</strong><span>Mensajes directos y respuestas a comentarios</span></div>
+          </div>
+          <div class="canal-item" id="tab-tt" data-platform="tt">
+            <div class="canal-dot"></div>
+            <div><strong>TikTok</strong><span>Respuestas automáticas a comentarios de videos</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="phone-visual reveal">
+        <div class="phone-frame">
+          <div class="phone-notch"><div class="phone-notch-pill"></div></div>
+          <!-- WhatsApp -->
+          <div class="chat-screen" id="screen-wa">
+            <div class="chat-hd wa-hd">
+              <div class="cha cha-wa">S</div>
+              <div class="chi"><strong>Santiago · Ventum</strong><span>⬤ en línea</span></div>
+            </div>
+            <div class="cbody">
+              <div class="cm bot">Hola 👋 Soy Santiago, el asistente de Joyería Ventum. ¿En qué te ayudo?</div>
+              <div class="cm usr">Quiero ver collares de oro</div>
+              <div class="cm bot">¡Perfecto! Aquí nuestra colección 👇<div class="cl">🔗 joyeriaventum.cl/collares</div></div>
+              <div class="cm usr">Me interesa el collar con rubí ¿tienen stock?</div>
+              <div class="cm bot">¡Sí, disponible! ¿Te agendo una visita a sala para verlo? 💎</div>
+              <div class="cm usr">Sí, para este sábado</div>
+              <div class="cm bot">Listo ✅ Elige tu hora aquí 📅<div class="cl">🔗 calendly.com/ventum/visita</div></div>
+            </div>
+            <div class="cinput"><div class="cinput-fake">Escribe un mensaje...</div></div>
+          </div>
+          <!-- Instagram -->
+          <div class="chat-screen hidden" id="screen-ig">
+            <div class="chat-hd ig-hd">
+              <div class="cha cha-ig">V</div>
+              <div class="chi"><strong>ventumjoyeria</strong><span>Instagram · Mensaje directo</span></div>
+            </div>
+            <div class="cbody">
+              <div class="cm usr">Hola! Vi tu post de la nueva colección ✨ ¿Tienen envío a regiones?</div>
+              <div class="cm bot">¡Hola! Sí, enviamos a todo Chile 🚚 Plazo de 3 a 5 días hábiles.</div>
+              <div class="cm usr">¿Puedo pagar con transferencia?</div>
+              <div class="cm bot">Claro ✅ Aceptamos transferencia, tarjetas y MercadoPago.<div class="cl">🔗 joyeriaventum.cl/catalogo</div></div>
+              <div class="cm usr">Perfecto, gracias!</div>
+              <div class="cm bot">Con mucho gusto 😊 Aquí estamos para lo que necesites.</div>
+            </div>
+            <div class="cinput"><div class="cinput-fake">Mensaje...</div></div>
+          </div>
+          <!-- TikTok -->
+          <div class="chat-screen hidden" id="screen-tt">
+            <div class="tt-vid">
+              <div class="tt-vid-bg">💎</div>
+              <div class="tt-vid-ov">
+                <div class="tt-handle">@ventumjoyeria</div>
+                <div class="tt-caption">Nueva colección verano ✨ #joyeria #chile #oro</div>
+              </div>
+            </div>
+            <div class="tt-cmt-hd"><span>Comentarios</span><small>247</small></div>
+            <div class="tt-cmt-list">
+              <div class="tt-c"><div class="tt-av">A</div><div class="tt-ctext"><strong>@ana_flores</strong><p>¿Tienen el collar dorado de 3 vueltas?</p></div></div>
+              <div class="tt-c rep"><div class="tt-av bot">V</div><div class="tt-ctext"><strong>@ventumjoyeria</strong><p>¡Hola @ana_flores! Sí lo tenemos 💎 Escríbenos por DM para fotos y precio.</p></div></div>
+              <div class="tt-c"><div class="tt-av">M</div><div class="tt-ctext"><strong>@maria_gtz</strong><p>¿Hacen envíos a Concepción?</p></div></div>
+              <div class="tt-c rep"><div class="tt-av bot">V</div><div class="tt-ctext"><strong>@ventumjoyeria</strong><p>¡Sí @maria_gtz! A todo Chile 🚚 3-5 días hábiles.</p></div></div>
+              <div class="tt-c"><div class="tt-av">P</div><div class="tt-ctext"><strong>@pedro_mv</strong><p>¿Cuánto vale el collar del video?</p></div></div>
+              <div class="tt-c rep"><div class="tt-av bot">V</div><div class="tt-ctext"><strong>@ventumjoyeria</strong><p>Te enviamos el precio por DM @pedro_mv 📩</p></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="platform-indicators">
+          <div class="platform-ind active" id="ind-wa">WhatsApp</div>
+          <div class="platform-ind" id="ind-ig">Instagram</div>
+          <div class="platform-ind" id="ind-tt">TikTok</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .canales-wrapper { display: grid; grid-template-columns: 1fr auto; gap: 72px; align-items: center; }
+  .canales-text > p { color: var(--text-secondary); font-size: 1rem; font-weight: 300; line-height: 1.75; margin-bottom: 36px; max-width: 400px; }
+  .canal-list { display: flex; flex-direction: column; gap: 10px; }
+  .canal-item { display: flex; align-items: flex-start; gap: 14px; padding: 14px 18px; border-radius: var(--r-sm); border: 1px solid var(--border); transition: all var(--ease); cursor: pointer; }
+  .canal-item:hover:not(.active) { border-color: rgba(168,85,247,0.18); background: rgba(168,85,247,0.04); }
+  .canal-item.active { border-color: var(--accent-border); background: var(--accent-dim); }
+  .canal-dot { width: 8px; height: 8px; min-width: 8px; border-radius: 50%; background: var(--text-muted); margin-top: 5px; transition: background var(--ease); }
+  .canal-item.active .canal-dot { background: var(--accent); }
+  .canal-item strong { display: block; font-family: var(--font-h); font-size: 0.875rem; font-weight: 600; color: var(--text-primary); margin-bottom: 2px; }
+  .canal-item span { font-size: 0.78rem; color: var(--text-secondary); font-weight: 300; }
+  .phone-visual { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+  .phone-frame { width: 265px; background: #080c12; border-radius: 38px; border: 2px solid rgba(255,255,255,0.1); overflow: hidden; box-shadow: 0 0 0 1px rgba(255,255,255,0.04), 0 0 0 7px rgba(255,255,255,0.02), 0 40px 80px rgba(0,0,0,0.8); }
+  .phone-notch { height: 24px; display: flex; align-items: flex-start; justify-content: center; background: #080c12; }
+  .phone-notch-pill { width: 80px; height: 18px; background: #000; border-radius: 0 0 12px 12px; }
+  .chat-screen { display: flex; flex-direction: column; height: 490px; }
+  .chat-screen.hidden { display: none; }
+  .chat-hd { display: flex; align-items: center; gap: 10px; padding: 9px 12px; flex-shrink: 0; }
+  .wa-hd { background: #1F2C34; }
+  .ig-hd { background: #000; border-bottom: 1px solid #262626; }
+  .cha { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-h); font-size: 0.75rem; font-weight: 700; flex-shrink: 0; color: #fff; }
+  .cha-wa { background: #00A884; }
+  .cha-ig { background: linear-gradient(135deg, #833AB4, #FD1D1D, #FCAF45); }
+  .chi { display: flex; flex-direction: column; }
+  .chi strong { font-family: var(--font-h); font-size: 0.77rem; font-weight: 600; line-height: 1.2; }
+  .wa-hd .chi strong { color: #E9EDEF; } .wa-hd .chi span { font-size: 0.62rem; color: #00A884; }
+  .ig-hd .chi strong { color: #FAFAFA; } .ig-hd .chi span { font-size: 0.62rem; color: #999; }
+  .cbody { flex: 1; padding: 10px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; scrollbar-width: none; }
+  .cbody::-webkit-scrollbar { display: none; }
+  #screen-wa .cbody { background: #0B141A; } #screen-ig .cbody { background: #000; }
+  .cm { max-width: 84%; padding: 7px 10px; border-radius: 8px; font-size: 0.7rem; line-height: 1.5; color: #E9EDEF; word-break: break-word; }
+  .cm.bot { align-self: flex-start; border-top-left-radius: 2px; } .cm.usr { align-self: flex-end; border-top-right-radius: 2px; }
+  #screen-wa .cm.bot { background: #202C33; } #screen-wa .cm.usr { background: #005C4B; }
+  #screen-ig .cm.bot { background: #262626; } #screen-ig .cm.usr { background: linear-gradient(135deg, #833AB4, #C13584); }
+  .cl { font-size: 0.63rem; color: var(--accent); margin-top: 4px; }
+  .cinput { padding: 8px 10px; flex-shrink: 0; }
+  #screen-wa .cinput { background: #1F2C34; } #screen-ig .cinput { background: #000; border-top: 1px solid #262626; }
+  .cinput-fake { border-radius: 20px; padding: 7px 14px; font-size: 0.65rem; color: #8696A0; }
+  #screen-wa .cinput-fake { background: #2A3942; } #screen-ig .cinput-fake { background: #1C1C1C; }
+  .tt-vid { height: 155px; position: relative; overflow: hidden; flex-shrink: 0; display: flex; align-items: flex-end; }
+  .tt-vid-bg { position: absolute; inset: 0; background: linear-gradient(135deg, #2d1b33, #1a1a2e); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; opacity: 0.5; }
+  .tt-vid-ov { position: relative; z-index: 1; padding: 10px 12px; width: 100%; background: linear-gradient(transparent, rgba(0,0,0,0.85)); }
+  .tt-handle { font-family: var(--font-h); font-size: 0.7rem; font-weight: 700; color: #fff; }
+  .tt-caption { font-size: 0.62rem; color: rgba(255,255,255,0.7); margin-top: 2px; }
+  .tt-cmt-hd { background: #121212; padding: 7px 12px; display: flex; justify-content: space-between; border-bottom: 1px solid #2a2a2a; flex-shrink: 0; }
+  .tt-cmt-hd span { font-family: var(--font-h); font-size: 0.73rem; font-weight: 600; color: #fff; } .tt-cmt-hd small { font-size: 0.68rem; color: #666; }
+  .tt-cmt-list { flex: 1; background: #121212; overflow-y: auto; padding: 8px 10px; display: flex; flex-direction: column; gap: 10px; scrollbar-width: none; }
+  .tt-cmt-list::-webkit-scrollbar { display: none; }
+  .tt-c { display: flex; gap: 8px; align-items: flex-start; } .tt-c.rep { padding-left: 8px; }
+  .tt-av { width: 26px; height: 26px; border-radius: 50%; background: #333; display: flex; align-items: center; justify-content: center; font-size: 0.62rem; font-weight: 700; color: #fff; flex-shrink: 0; }
+  .tt-av.bot { background: #69C9D0; color: #000; }
+  .tt-ctext { flex: 1; } .tt-ctext strong { font-family: var(--font-h); font-size: 0.67rem; font-weight: 700; color: #fff; display: block; margin-bottom: 2px; } .tt-ctext p { font-size: 0.65rem; color: #ccc; line-height: 1.45; }
+  .platform-indicators { display: flex; gap: 8px; }
+  .platform-ind { font-family: var(--font-h); font-size: 0.72rem; font-weight: 500; color: var(--text-muted); padding: 5px 12px; border-radius: 100px; border: 1px solid transparent; transition: all var(--ease); cursor: default; }
+  .platform-ind.active { color: var(--accent); border-color: var(--accent-border); background: var(--accent-dim); }
+</style>
+
+<script>
+  const platforms = ['wa','ig','tt'];
+  let pIdx = 0, autoCycle;
+  function switchTo(next) {
+    const curr = platforms[pIdx];
+    if (curr === next) return;
+    pIdx = platforms.indexOf(next);
+    const currEl = document.getElementById(`screen-${curr}`);
+    const nextEl = document.getElementById(`screen-${next}`);
+    if (!currEl || !nextEl) return;
+    if (typeof gsap !== 'undefined') {
+      gsap.to(currEl, { opacity:0, duration:0.3, ease:'power2.in', onComplete: () => {
+        currEl.classList.add('hidden');
+        nextEl.classList.remove('hidden');
+        gsap.fromTo(nextEl, { opacity:0 }, { opacity:1, duration:0.3, ease:'power2.out' });
+      }});
+    } else {
+      currEl.classList.add('hidden');
+      nextEl.classList.remove('hidden');
+    }
+    platforms.forEach(p => {
+      document.getElementById(`tab-${p}`)?.classList.remove('active');
+      document.getElementById(`ind-${p}`)?.classList.remove('active');
+    });
+    document.getElementById(`tab-${next}`)?.classList.add('active');
+    document.getElementById(`ind-${next}`)?.classList.add('active');
+  }
+  function startAutoCycle() {
+    clearInterval(autoCycle);
+    autoCycle = setInterval(() => switchTo(platforms[(pIdx+1)%platforms.length]), 4000);
+  }
+  document.querySelectorAll('.canal-item[data-platform]').forEach(item => {
+    item.addEventListener('click', () => { switchTo(item.dataset.platform); startAutoCycle(); });
+  });
+  startAutoCycle();
+</script>

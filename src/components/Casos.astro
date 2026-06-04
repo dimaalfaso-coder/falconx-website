@@ -1,0 +1,49 @@
+---
+---
+<section id="casos">
+  <div class="container">
+    <p class="s-label reveal">Casos reales</p>
+    <h2 class="s-title reveal">Sistemas en producción</h2>
+    <p class="s-desc reveal">No prototipos. Infraestructura real operando en negocios reales.</p>
+
+    <div class="cases-grid">
+      <div class="case-card reveal">
+        <p class="case-client">Joyería Ventum — joyeriaventum.cl</p>
+        <h3>Agente "Santiago" en WhatsApp</h3>
+        <p>Atiende consultas de joyería las 24 horas, navega el catálogo de Shopify y agenda visitas a sala vía Calendly — todo desde WhatsApp. El equipo puede tomar cualquier conversación en tiempo real.</p>
+        <div class="tags">
+          <span class="tag">WhatsApp Business</span>
+          <span class="tag">Shopify API</span>
+          <span class="tag">Calendly</span>
+          <span class="tag">Control BOT/Humano</span>
+          <span class="tag">3 flujos activos</span>
+        </div>
+      </div>
+      <div class="case-card reveal">
+        <p class="case-client">portalfirma.cl — Firma electrónica</p>
+        <h3>Notificaciones notariales vía WhatsApp</h3>
+        <p>Los clientes reciben actualizaciones automáticas de sus trámites por WhatsApp — desde el inicio hasta la entrega del documento legalizado. Pipeline validado de extremo a extremo.</p>
+        <div class="tags">
+          <span class="tag">Meta Graph API</span>
+          <span class="tag">5 templates aprobados</span>
+          <span class="tag">Idempotencia</span>
+          <span class="tag">Callback asíncrono</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="s-cta reveal">
+      <p>¿Quieres resultados como estos en tu empresa?</p>
+      <a href="#contacto" class="btn btn-primary">Hablemos →</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cases-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .case-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--r); padding: 36px; transition: border-color var(--ease), transform var(--ease); }
+  .case-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+  .case-client { font-family: var(--font-h); font-size: 0.72rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+  .case-card h3 { font-family: var(--font-h); font-size: 1.2rem; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 12px; }
+  .case-card p { color: var(--text-secondary); font-size: 0.875rem; line-height: 1.65; font-weight: 300; margin-bottom: 24px; }
+</style>

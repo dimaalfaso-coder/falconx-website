@@ -1,0 +1,240 @@
+---
+---
+<section id="hero">
+  <canvas id="hero-cvs"></canvas>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        IA para empresas · Disponible 24/7
+      </div>
+      <h1 class="hero-title">
+        IA que trabaja <span class="accent">24/7</span><br>por tu empresa
+      </h1>
+      <p class="hero-subtitle">
+        WhatsApp, redes sociales y más — según lo que tu negocio necesite. Automatizaciones listas para usar, sin que tu equipo tenga que tocar el sistema.
+      </p>
+      <div class="hero-ctas">
+        <a href="#contacto" class="btn btn-primary">Solicitar demo</a>
+        <a href="#servicios" class="btn btn-ghost">Ver servicios</a>
+      </div>
+      <div class="hero-reassurance">
+        <span>Diagnóstico inicial sin costo</span>
+        <span>Implementación en 1 semana</span>
+        <span>Sin contratos permanentes</span>
+      </div>
+      <div class="hero-clients">
+        <p class="hero-clients-label">Ya automatizan con FalconX</p>
+        <div class="hero-clients-names">
+          <strong>Joyería Ventum</strong>
+          <span class="dot"></span>
+          <strong>portalfirma.cl</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding-top: 64px;
+    position: relative; overflow: hidden;
+  }
+  #hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 55% at 50% -10%, rgba(168,85,247,0.07) 0%, transparent 65%);
+    pointer-events: none; z-index: 0;
+  }
+  #hero-cvs {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    pointer-events: none; z-index: 0;
+  }
+  .hero-content {
+    position: relative; z-index: 1;
+    max-width: 700px; padding: 80px 0;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent-dim); border: 1px solid var(--accent-border);
+    color: var(--accent); font-family: var(--font-h); font-weight: 500;
+    font-size: 0.78rem; padding: 6px 14px; border-radius: 100px;
+    margin-bottom: 28px;
+  }
+  .hero-badge-dot {
+    width: 6px; height: 6px; background: var(--accent);
+    border-radius: 50%; animation: blink 2s infinite;
+  }
+  @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+  .hero-title {
+    font-family: var(--font-h);
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    font-weight: 700; line-height: 1.1;
+    letter-spacing: -0.03em; margin-bottom: 20px;
+    text-shadow: 0 2px 24px rgba(0,0,0,0.6);
+  }
+  .hero-subtitle {
+    font-size: 1.05rem; font-weight: 300;
+    color: var(--text-secondary); max-width: 520px;
+    line-height: 1.75; margin-bottom: 40px;
+    text-shadow: 0 1px 12px rgba(0,0,0,0.5);
+  }
+  .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+  .hero-reassurance {
+    font-family: var(--font-h); font-size: 0.78rem;
+    color: var(--text-muted); margin-bottom: 32px;
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  }
+  .hero-reassurance span { display: flex; align-items: center; gap: 6px; }
+  .hero-reassurance span::before { content: '✓'; color: var(--accent); font-size: 0.7rem; }
+  .hero-clients {
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    padding-top: 28px; border-top: 1px solid var(--border);
+  }
+  .hero-clients-label {
+    font-family: var(--font-h); font-size: 0.72rem; font-weight: 500;
+    color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;
+  }
+  .hero-clients-names { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .hero-clients-names strong {
+    font-family: var(--font-h); font-size: 0.85rem; font-weight: 500;
+    color: var(--text-secondary);
+  }
+  .hero-clients-names .dot {
+    width: 3px; height: 3px; background: var(--text-muted); border-radius: 50%;
+  }
+</style>
+
+<script>
+  /* GSAP hero entrance */
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+      gsap.registerPlugin(ScrollTrigger);
+      gsap.timeline({ delay: 0.15 })
+        .from('.hero-badge',       { opacity:0, y:16, duration:0.5, ease:'power2.out' })
+        .from('.hero-title',       { opacity:0, y:24, duration:0.6, ease:'power2.out' }, '-=0.2')
+        .from('.hero-subtitle',    { opacity:0, y:16, duration:0.5, ease:'power2.out' }, '-=0.3')
+        .from('.hero-ctas',        { opacity:0, y:16, duration:0.5, ease:'power2.out' }, '-=0.3')
+        .from('.hero-reassurance', { opacity:0, y:10, duration:0.4, ease:'power2.out' }, '-=0.2')
+        .from('.hero-clients',     { opacity:0, y:10, duration:0.4, ease:'power2.out' }, '-=0.2');
+
+      gsap.utils.toArray('.reveal').forEach(el => {
+        gsap.fromTo(el,
+          { opacity:0, y:28 },
+          { opacity:1, y:0, duration:0.65, ease:'power2.out',
+            scrollTrigger:{ trigger:el, start:'top 88%', toggleActions:'play none none none' }
+          }
+        );
+      });
+    }
+  });
+
+  /* Red neuronal */
+  (function() {
+    const cvs = document.getElementById('hero-cvs');
+    if (!cvs) return;
+    const ctx = cvs.getContext('2d');
+    const RGB = '56,189,248';
+    const N_COUNT = 115, MIN_SEP = 60, MAX_SYN = 185, K_SYN = 5, MAX_SIG = 30;
+    let neurons = [], synapses = [], signals = [];
+
+    function resize() {
+      const hero = document.getElementById('hero');
+      cvs.width  = hero.offsetWidth  || window.innerWidth;
+      cvs.height = hero.offsetHeight || window.innerHeight;
+      build();
+    }
+    function build() {
+      neurons = []; synapses = []; signals = [];
+      let tries = 0;
+      while (neurons.length < N_COUNT && tries < N_COUNT * 80) {
+        const x = Math.random() * cvs.width, y = Math.random() * cvs.height;
+        if (neurons.every(n => Math.hypot(n.x-x, n.y-y) >= MIN_SEP))
+          neurons.push({ x, y, energy:0, refr:0 });
+        tries++;
+      }
+      neurons.forEach((n, i) => {
+        neurons.map((m,j) => ({j, d:Math.hypot(n.x-m.x, n.y-m.y)}))
+          .filter(e => e.j!==i && e.d<=MAX_SYN)
+          .sort((a,b) => a.d-b.d).slice(0,K_SYN)
+          .forEach(({j}) => {
+            if (!synapses.some(s => (s.a===i&&s.b===j)||(s.a===j&&s.b===i)))
+              synapses.push({a:i, b:j, flash:0});
+          });
+      });
+    }
+    function fire(idx, depth) {
+      if (depth > 3) return;
+      const n = neurons[idx]; if (!n || n.refr > 0) return;
+      n.energy = 1.0; n.refr = 3000 + Math.random() * 2000;
+      synapses.forEach((s, si) => {
+        let target = s.a===idx ? s.b : s.b===idx ? s.a : -1;
+        if (target < 0 || neurons[target].refr > 0) return;
+        if (signals.length >= MAX_SIG || Math.random() > .22) return;
+        const from = neurons[idx], to = neurons[target];
+        signals.push({ sx:from.x, sy:from.y, tx:to.x, ty:to.y, toIdx:target, t:0,
+          spd:.003+Math.random()*.003, synIdx:si, depth:depth+1, fired:false });
+      });
+    }
+    function thought() {
+      const free = neurons.map((n,i)=>({n,i})).filter(({n})=>n.refr<=0).map(({i})=>i);
+      if (free.length) fire(free[Math.floor(Math.random()*free.length)], 0);
+      setTimeout(thought, 1800 + Math.random() * 2400);
+    }
+    setTimeout(thought, 500);
+
+    let prevTs = 0;
+    function frame(ts) {
+      const dt = Math.min(ts-prevTs, 50); prevTs = ts;
+      ctx.clearRect(0, 0, cvs.width, cvs.height);
+      const breathe = .028 + Math.sin(ts/2800) * .01;
+      neurons.forEach(n => {
+        if (n.energy > 0) n.energy = Math.max(0, n.energy-.007);
+        if (n.refr   > 0) n.refr   = Math.max(0, n.refr-dt);
+      });
+      synapses.forEach(s => { if (s.flash>0) s.flash = Math.max(0, s.flash-.018); });
+      synapses.forEach(s => {
+        const a = neurons[s.a], b = neurons[s.b];
+        ctx.strokeStyle = `rgba(${RGB},${breathe+s.flash*.2})`;
+        ctx.lineWidth = .45 + s.flash*.65;
+        ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+      });
+      neurons.forEach(n => {
+        const e = n.energy;
+        if (e > 0.12) {
+          const gr = e*26, g = ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,gr);
+          g.addColorStop(0,`rgba(${RGB},${e*.28})`); g.addColorStop(1,`rgba(${RGB},0)`);
+          ctx.beginPath(); ctx.arc(n.x,n.y,gr,0,Math.PI*2);
+          ctx.fillStyle=g; ctx.fill();
+        }
+        ctx.beginPath(); ctx.arc(n.x,n.y,1.8+e*3.2,0,Math.PI*2);
+        ctx.fillStyle=`rgba(${RGB},${.11+e*.78})`; ctx.fill();
+      });
+      signals = signals.filter(p => p.t < 1.06);
+      signals.forEach(p => {
+        p.t += p.spd;
+        const t = Math.min(1,p.t), x = p.sx+(p.tx-p.sx)*t, y = p.sy+(p.ty-p.sy)*t;
+        synapses[p.synIdx].flash = Math.max(synapses[p.synIdx].flash, .78);
+        if (p.t>=1 && !p.fired) { p.fired=true; fire(p.toIdx,p.depth); }
+        const t0 = Math.max(0,t-.22), x0 = p.sx+(p.tx-p.sx)*t0, y0 = p.sy+(p.ty-p.sy)*t0;
+        const tg = ctx.createLinearGradient(x0,y0,x,y);
+        tg.addColorStop(0,`rgba(${RGB},0)`); tg.addColorStop(1,`rgba(${RGB},.65)`);
+        ctx.strokeStyle=tg; ctx.lineWidth=1.1;
+        ctx.beginPath(); ctx.moveTo(x0,y0); ctx.lineTo(x,y); ctx.stroke();
+        const g = ctx.createRadialGradient(x,y,0,x,y,8);
+        g.addColorStop(0,`rgba(${RGB},.42)`); g.addColorStop(1,`rgba(${RGB},0)`);
+        ctx.beginPath(); ctx.arc(x,y,8,0,Math.PI*2); ctx.fillStyle=g; ctx.fill();
+        ctx.beginPath(); ctx.arc(x,y,2,0,Math.PI*2);
+        ctx.fillStyle='rgba(255,255,255,.88)'; ctx.fill();
+      });
+      requestAnimationFrame(frame);
+    }
+    let rt;
+    window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(resize, 150); });
+    resize();
+    requestAnimationFrame(frame);
+  })();
+</script>

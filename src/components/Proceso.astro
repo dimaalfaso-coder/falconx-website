@@ -1,0 +1,44 @@
+---
+---
+<section id="proceso">
+  <div class="container">
+    <p class="s-label reveal">Cómo trabajamos</p>
+    <h2 class="s-title reveal">De cero a producción</h2>
+    <p class="s-desc reveal">Sin sorpresas. Cada etapa tiene un entregable claro.</p>
+
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">01</div>
+        <div class="step-body"><h3>Diagnóstico</h3><p>Entendemos tu negocio antes de escribir una línea de código. Qué quieres automatizar, qué canales usas y cómo trabaja tu equipo hoy.</p></div>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">02</div>
+        <div class="step-body"><h3>Diseño de arquitectura</h3><p>Definimos qué sistemas se conectan, qué datos se mueven y cómo fluye cada proceso. Tú apruebas antes de que construyamos.</p></div>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">03</div>
+        <div class="step-body"><h3>Configuración e integración</h3><p>Conectamos tus plataformas: WhatsApp Business, redes sociales, CRM, APIs. Configuramos en entorno de prueba primero.</p></div>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">04</div>
+        <div class="step-body"><h3>Pruebas y ajuste</h3><p>Validamos el flujo completo de extremo a extremo, entrenamos al agente con la información de tu negocio y ajustamos hasta que funcione bien.</p></div>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">05</div>
+        <div class="step-body"><h3>Entrega y seguimiento</h3><p>Sistema en producción con documentación completa. Monitoreo continuo para que los flujos funcionen siempre.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .steps { display: flex; flex-direction: column; gap: 0; max-width: 660px; }
+  .step { display: flex; gap: 24px; padding-bottom: 40px; position: relative; cursor: default; }
+  .step:hover .step-body p { font-size: 1rem; color: var(--text-primary); }
+  .step:hover .step-num { border-color: var(--accent-border); color: var(--accent); }
+  .step:not(:last-child)::after { content: ''; position: absolute; left: 19px; top: 44px; bottom: 0; width: 1px; background: var(--border); }
+  .step-num { width: 40px; height: 40px; min-width: 40px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-h); font-size: 0.78rem; font-weight: 600; color: var(--accent); position: relative; z-index: 1; transition: border-color 0.25s ease, color 0.25s ease; }
+  .step-body { padding-top: 8px; }
+  .step-body h3 { font-family: var(--font-h); font-size: 1rem; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 6px; }
+  .step-body p { color: var(--text-secondary); font-size: 0.875rem; line-height: 1.65; font-weight: 300; transition: font-size 0.25s ease, color 0.25s ease; }
+</style>
