@@ -106,6 +106,13 @@
   .hero-clients-names .dot {
     width: 3px; height: 3px; background: var(--text-muted); border-radius: 50%;
   }
+  @media (max-width: 640px) {
+    .hero-content { padding: 40px 0; }
+    .hero-title { margin-bottom: 16px; }
+    .hero-subtitle { font-size: 0.95rem; margin-bottom: 28px; }
+    .hero-ctas { flex-direction: column; }
+    .hero-ctas .btn { text-align: center; }
+  }
 </style>
 
 <script>
@@ -138,7 +145,7 @@
     if (!cvs) return;
     const ctx = cvs.getContext('2d');
     const RGB = '56,189,248';
-    const N_COUNT = 115, MIN_SEP = 60, MAX_SYN = 185, K_SYN = 5, MAX_SIG = 30;
+    const N_COUNT = window.innerWidth < 640 ? 55 : 115, MIN_SEP = 60, MAX_SYN = 185, K_SYN = 5, MAX_SIG = 30;
     let neurons = [], synapses = [], signals = [];
 
     function resize() {

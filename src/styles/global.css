@@ -170,10 +170,16 @@ section { padding: 96px 0; }
   .phone-visual { order: -1; }
 }
 @media (max-width: 640px) {
-  .nav-links { display: none; }
-  section { padding: 72px 0; }
+  section { padding: 60px 0; }
+  .container { padding: 0 20px; }
   .services-grid { grid-template-columns: 1fr !important; }
   .cases-grid    { grid-template-columns: 1fr !important; }
   .form-row      { grid-template-columns: 1fr !important; }
   .footer-inner  { flex-direction: column; gap: 10px; text-align: center; }
+  .s-cta { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .s-desc { margin-bottom: 36px; }
+}
+@media (max-width: 480px) {
+  .s-cta { padding: 20px; }
+  .s-title { margin-bottom: 12px; }
 }
