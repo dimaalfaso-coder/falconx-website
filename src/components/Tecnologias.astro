@@ -1,6 +1,36 @@
 ---
 ---
 <section id="tecnologias">
+  <svg class="pcb-bg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <pattern id="pcb-tile" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
+        <!-- Horizontal traces -->
+        <line x1="0" y1="40" x2="33" y2="40" stroke="white" stroke-width="0.7"/>
+        <line x1="47" y1="40" x2="80" y2="40" stroke="white" stroke-width="0.7"/>
+        <!-- Vertical traces -->
+        <line x1="40" y1="0" x2="40" y2="33" stroke="white" stroke-width="0.7"/>
+        <line x1="40" y1="47" x2="40" y2="80" stroke="white" stroke-width="0.7"/>
+        <!-- Junction circle -->
+        <circle cx="40" cy="40" r="4.5" fill="none" stroke="white" stroke-width="0.7"/>
+        <circle cx="40" cy="40" r="1.6" fill="white"/>
+        <!-- L-trace top-left -->
+        <line x1="0" y1="14" x2="18" y2="14" stroke="white" stroke-width="0.7"/>
+        <line x1="18" y1="14" x2="18" y2="0" stroke="white" stroke-width="0.7"/>
+        <circle cx="18" cy="14" r="1.6" fill="white"/>
+        <!-- L-trace bottom-right -->
+        <line x1="80" y1="66" x2="62" y2="66" stroke="white" stroke-width="0.7"/>
+        <line x1="62" y1="66" x2="62" y2="80" stroke="white" stroke-width="0.7"/>
+        <circle cx="62" cy="66" r="1.6" fill="white"/>
+        <!-- Endpoint pads -->
+        <circle cx="1.5" cy="40" r="2.2" fill="white"/>
+        <circle cx="78.5" cy="40" r="2.2" fill="white"/>
+        <circle cx="40" cy="1.5" r="2.2" fill="white"/>
+        <circle cx="40" cy="78.5" r="2.2" fill="white"/>
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#pcb-tile)"/>
+  </svg>
+
   <div class="container">
     <p class="s-label reveal">Stack</p>
     <h2 class="s-title reveal">Herramientas que usamos</h2>
@@ -23,7 +53,15 @@
 </section>
 
 <style>
+  #tecnologias { position: relative; overflow: hidden; }
+  .pcb-bg {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    opacity: 0.07;
+    pointer-events: none;
+  }
+  .container { position: relative; z-index: 1; }
   .tech-grid { display: flex; flex-wrap: wrap; gap: 10px; }
-  .tech-item { background: var(--bg); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 8px 16px; font-family: var(--font-h); font-size: 0.82rem; font-weight: 500; color: var(--text-secondary); transition: border-color var(--ease), color var(--ease); cursor: default; }
-  .tech-item:hover { border-color: var(--accent-border); color: var(--text-primary); }
+  .tech-item { background: var(--bg); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 8px 16px; font-family: var(--font-h); font-size: 0.82rem; font-weight: 500; color: var(--text-secondary); transition: border-color var(--ease), color var(--ease), box-shadow var(--ease); cursor: default; }
+  .tech-item:hover { border-color: var(--accent-border); color: var(--text-primary); box-shadow: 0 0 12px rgba(168,85,247,0.1); }
 </style>

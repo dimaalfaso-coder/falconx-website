@@ -1,6 +1,7 @@
 ---
 ---
 <section id="hero">
+  <div class="hero-glow" aria-hidden="true"></div>
   <canvas id="hero-cvs"></canvas>
   <div class="container">
     <div class="hero-content">
@@ -9,7 +10,7 @@
         IA para empresas · Disponible 24/7
       </div>
       <h1 class="hero-title">
-        IA que trabaja <span class="accent">24/7</span><br>por tu empresa
+        IA que trabaja <span class="accent">24/7</span><br>por <span class="accent">tu empresa</span>
       </h1>
       <p class="hero-subtitle">
         WhatsApp, redes sociales y más — según lo que tu negocio necesite. Automatizaciones listas para usar, sin que tu equipo tenga que tocar el sistema.
@@ -105,6 +106,15 @@
   }
   .hero-clients-names .dot {
     width: 3px; height: 3px; background: var(--text-muted); border-radius: 50%;
+  }
+  .hero-glow {
+    position: absolute;
+    width: 720px; height: 520px;
+    top: 5%; left: -12%;
+    background: radial-gradient(ellipse at 35% 45%, rgba(168,85,247,0.16) 0%, rgba(109,40,217,0.07) 45%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    filter: blur(48px);
   }
   @media (max-width: 640px) {
     .hero-content { padding: 40px 0; }
