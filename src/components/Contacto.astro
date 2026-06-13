@@ -23,7 +23,8 @@
       </div>
 
       <div class="reveal">
-        <form class="form" id="contactForm" novalidate>
+        <form class="form" id="contactForm" name="contacto" data-netlify="true" novalidate>
+          <input type="hidden" name="form-name" value="contacto">
           <div class="form-row">
             <div class="fg"><label for="nombre">Nombre *</label><input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required autocomplete="name"></div>
             <div class="fg"><label for="empresa">Empresa</label><input type="text" id="empresa" name="empresa" placeholder="Nombre de tu empresa" autocomplete="organization"></div>
@@ -76,16 +77,55 @@
   .fg textarea { resize: vertical; min-height: 116px; }
   .btn-submit { width: 100%; padding: 14px; font-size: 0.95rem; }
   .form-ok { display: none; text-align: center; padding: 40px; color: var(--accent); font-family: var(--font-h); font-size: 1rem; }
+  .form-error { color: #f87171; font-size: 0.75rem; margin-top: 2px; display: none; }
+  .fg input.invalid, .fg textarea.invalid { border-color: #f87171; }
 </style>
 
 <script>
-  document.getElementById('contactForm')?.addEventListener('submit', function(e) {
+  const form = document.getElementById('contactForm') as HTMLFormElement | null;
+
+  form?.addEventListener('submit', async function(e) {
     e.preventDefault();
-    const nombre = (document.getElementById('nombre') as HTMLInputElement)?.value.trim();
-    const email  = (document.getElementById('email')  as HTMLInputElement)?.value.trim();
-    if (!nombre || !email) return;
-    (this as HTMLFormElement).style.display = 'none';
-    const ok = document.getElementById('formOk');
-    if (ok) ok.style.display = 'block';
+
+    const nombreEl = document.getElementById('nombre') as HTMLInputElement;
+    const emailEl  = document.getElementById('email')  as HTMLInputElement;
+    const nombre   = nombreEl?.value.trim() ?? '';
+    const email    = emailEl?.value.trim()  ?? '';
+
+    let valid = true;
+
+    if (!nombre) {
+      nombreEl?.classList.add('invalid');
+      valid = false;
+    } else {
+      nombreEl?.classList.remove('invalid');
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    if (!email || !emailRegex.test(email)) {
+      emailEl?.classList.add('invalid');
+      valid = false;
+    } else {
+      emailEl?.classList.remove('invalid');
+    }
+
+    if (!valid) return;
+
+    try {
+      const res = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(new FormData(this) as any).toString(),
+      });
+
+      if (res.ok) {
+        (this as HTMLFormElement).style.display = 'none';
+        const ok = document.getElementById('formOk');
+        if (ok) ok.style.display = 'block';
+      }
+    } catch {
+      // si falla el fetch, submit nativo como fallback
+      (this as HTMLFormElement).submit();
+    }
   });
 </script>

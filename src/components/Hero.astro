@@ -126,28 +126,35 @@
 </style>
 
 <script>
-  /* GSAP hero entrance */
-  document.addEventListener('DOMContentLoaded', () => {
-    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-      gsap.registerPlugin(ScrollTrigger);
-      gsap.timeline({ delay: 0.15 })
-        .from('.hero-badge',       { opacity:0, y:16, duration:0.5, ease:'power2.out' })
-        .from('.hero-title',       { opacity:0, y:24, duration:0.6, ease:'power2.out' }, '-=0.2')
-        .from('.hero-subtitle',    { opacity:0, y:16, duration:0.5, ease:'power2.out' }, '-=0.3')
-        .from('.hero-ctas',        { opacity:0, y:16, duration:0.5, ease:'power2.out' }, '-=0.3')
-        .from('.hero-reassurance', { opacity:0, y:10, duration:0.4, ease:'power2.out' }, '-=0.2')
-        .from('.hero-clients',     { opacity:0, y:10, duration:0.4, ease:'power2.out' }, '-=0.2');
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
 
-      gsap.utils.toArray('.reveal').forEach(el => {
-        gsap.fromTo(el,
-          { opacity:0, y:28 },
-          { opacity:1, y:0, duration:0.65, ease:'power2.out',
-            scrollTrigger:{ trigger:el, start:'top 88%', toggleActions:'play none none none' }
-          }
-        );
-      });
-    }
-  });
+  /* GSAP hero entrance — respeta prefers-reduced-motion */
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (prefersReduced) {
+    document.querySelectorAll('.reveal').forEach(el => {
+      (el as HTMLElement).style.opacity = '1';
+    });
+  } else {
+    gsap.timeline({ delay: 0.15 })
+      .from('.hero-badge',       { opacity:0, y:16, duration:0.5, ease:'power2.out' })
+      .from('.hero-title',       { opacity:0, y:24, duration:0.6, ease:'power2.out' }, '-=0.2')
+      .from('.hero-subtitle',    { opacity:0, y:16, duration:0.5, ease:'power2.out' }, '-=0.3')
+      .from('.hero-ctas',        { opacity:0, y:16, duration:0.5, ease:'power2.out' }, '-=0.3')
+      .from('.hero-reassurance', { opacity:0, y:10, duration:0.4, ease:'power2.out' }, '-=0.2')
+      .from('.hero-clients',     { opacity:0, y:10, duration:0.4, ease:'power2.out' }, '-=0.2');
+
+    gsap.utils.toArray('.reveal').forEach(el => {
+      gsap.fromTo(el,
+        { opacity:0, y:28 },
+        { opacity:1, y:0, duration:0.65, ease:'power2.out',
+          scrollTrigger:{ trigger:el as Element, start:'top 88%', toggleActions:'play none none none' }
+        }
+      );
+    });
+  }
 
   /* Red neuronal */
   (function() {
