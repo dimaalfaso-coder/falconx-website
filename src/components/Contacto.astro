@@ -111,21 +111,29 @@
 
     if (!valid) return;
 
+    const btn = this.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+    if (btn) { btn.disabled = true; btn.textContent = 'Enviando...'; }
+
     try {
+      const formData = new FormData(this);
+      const params   = new URLSearchParams();
+      formData.forEach((value, key) => params.append(key, value.toString()));
+
       const res = await fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(new FormData(this) as any).toString(),
+        body: params.toString(),
       });
 
       if (res.ok) {
-        (this as HTMLFormElement).style.display = 'none';
+        this.style.display = 'none';
         const ok = document.getElementById('formOk');
         if (ok) ok.style.display = 'block';
+      } else {
+        if (btn) { btn.disabled = false; btn.textContent = 'Enviar solicitud'; }
       }
     } catch {
-      // si falla el fetch, submit nativo como fallback
-      (this as HTMLFormElement).submit();
+      if (btn) { btn.disabled = false; btn.textContent = 'Enviar solicitud'; }
     }
   });
 </script>
