@@ -17,7 +17,6 @@
       </p>
       <div class="hero-ctas">
         <a href="#contacto" class="btn btn-primary">Solicitar demo</a>
-        <a href="#servicios" class="btn btn-ghost">Ver servicios</a>
       </div>
       <div class="hero-reassurance">
         <span>Diagnóstico inicial sin costo</span>
@@ -210,6 +209,7 @@
     let synapses: Synapse[] = [];
     let signals: Signal[]   = [];
     let nextThought = 0;
+    let thoughtsFired = 0; // cuenta para una arrancada rápida y luego asentarse
 
     function resize() {
       const hero = document.getElementById('hero');
@@ -219,7 +219,7 @@
     }
 
     function buildNeurons() {
-      neurons = []; synapses = []; signals = []; nextThought = 0;
+      neurons = []; synapses = []; signals = []; nextThought = 0; thoughtsFired = 0;
 
       const skyH   = cvs.height * 0.56; // zona de cielo, donde antes iban las estrellas
       const area   = cvs.width * skyH;
@@ -250,6 +250,14 @@
             }
           });
       });
+
+      /* Arranque inmediato: unas pocas neuronas ya activas al cargar,
+         para que no se vea "apagado" mientras se espera el primer pensamiento */
+      const starters = [...neurons.keys()];
+      for (let k = 0; k < Math.min(3, starters.length); k++) {
+        const idx = starters.splice(Math.floor(Math.random() * starters.length), 1)[0];
+        fire(idx, 0);
+      }
     }
 
     /* Dispara una neurona: se enciende y propaga señales a vecinas */
@@ -287,12 +295,14 @@
       const cx  = w * 0.5;
       const hor = h * 0.52; // línea del horizonte
 
-      /* ── Pensamiento espontáneo: dispara una neurona libre cada 3-7s ── */
+      /* ── Pensamiento espontáneo: arranca rápido y luego se asienta a 3-7s ── */
       if (t > nextThought) {
         const free: number[] = [];
         neurons.forEach((n, i) => { if (n.refr <= 0) free.push(i); });
         if (free.length) fire(free[Math.floor(Math.random() * free.length)], 0);
-        nextThought = t + 3 + Math.random() * 4;
+        thoughtsFired++;
+        const early = thoughtsFired < 6;
+        nextThought = t + (early ? 0.35 + Math.random() * 0.5 : 3 + Math.random() * 4);
       }
 
       /* ── Actualizar estados de neuronas y sinapsis ── */
@@ -387,6 +397,24 @@
       ctx.fill();
       ctx.restore();
 
+      /* ── Líneas verticales del grid, convergiendo al punto de fuga ── */
+      ctx.shadowColor = 'rgba(255,20,210,0.9)';
+      ctx.shadowBlur  = 6;
+      const N_VERT = 16;
+      const vertBottomY = h + 10;
+      for (let i = 0; i <= N_VERT; i++) {
+        const f    = i / N_VERT;
+        const dist = Math.abs(f - 0.5) * 2; // 0 al centro, 1 en los bordes
+        const bx   = cx + (f - 0.5) * w * 1.7;
+        ctx.strokeStyle = `rgba(255,30,220,${(1 - dist * 0.78) * 0.35})`;
+        ctx.lineWidth = 0.7;
+        ctx.beginPath();
+        ctx.moveTo(cx, hor);
+        ctx.lineTo(bx, vertBottomY);
+        ctx.stroke();
+      }
+      ctx.shadowBlur = 0;
+
       /* ── Grid horizontal animado, líneas rectas tipo cuadrícula (solo suelo) ── */
       const N_RINGS = 18;
       const spd = 0.0175;
@@ -402,12 +430,15 @@
         const nearHor = Math.pow(1 - Math.pow(raw, 0.6), 2);
         const alpha   = Math.min(nearHor * 0.45 + p * 0.16, 0.5);
 
-        ctx.strokeStyle = `rgba(255,55,180,${alpha})`;
+        ctx.shadowColor = 'rgba(255,20,210,0.9)';
+        ctx.shadowBlur  = 4 + p * 5;
+        ctx.strokeStyle = `rgba(255,30,220,${alpha})`;
         ctx.lineWidth   = 0.6 + p * 1.2;
         ctx.beginPath();
         ctx.moveTo(cx - hw, y);
         ctx.lineTo(cx + hw, y);
         ctx.stroke();
+        ctx.shadowBlur = 0;
 
         /* ── Marcadores "via" tipo PCB en algunas intersecciones ── */
         LANE_FRACS.forEach((frac, j) => {
@@ -427,7 +458,27 @@
         });
       }
 
-      requestAnimationFrame(frame);
+      if (visible) {
+        requestAnimationFrame(frame);
+      } else {
+        rafRunning = false;
+      }
+    }
+
+    /* Pausa el loop cuando el hero no está en pantalla — ahorra CPU/batería
+       mientras se navega el resto del sitio */
+    let visible = true;
+    let rafRunning = true;
+    const heroEl = document.getElementById('hero');
+    if (heroEl) {
+      const io = new IntersectionObserver(([entry]) => {
+        visible = entry.isIntersecting;
+        if (visible && !rafRunning) {
+          rafRunning = true;
+          requestAnimationFrame(frame);
+        }
+      });
+      io.observe(heroEl);
     }
 
     let rt: ReturnType<typeof setTimeout>;

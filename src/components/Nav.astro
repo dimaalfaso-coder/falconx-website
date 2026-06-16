@@ -36,10 +36,16 @@
 <style>
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    background: rgba(8,12,18,0.85);
+    background: rgba(8,12,18,0.92);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid transparent;
+    box-shadow: 0 8px 28px -10px rgba(168,85,247,0.3);
+  }
+  nav::after {
+    content: '';
+    position: absolute; left: 0; right: 0; bottom: -1px; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,80,200,0.6) 50%, transparent);
   }
   .nav-inner {
     max-width: var(--wrap); margin: 0 auto;
@@ -55,7 +61,11 @@
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.07); }
   }
-  .nav-logo img { width: 32px; height: 32px; object-fit: contain; animation: logo-breathe 4s ease-in-out infinite; }
+  .nav-logo img {
+    width: 32px; height: 32px; object-fit: contain;
+    animation: logo-breathe 4s ease-in-out infinite;
+    filter: drop-shadow(0 0 6px rgba(168,85,247,0.5));
+  }
   .nav-logo span {
     font-family: var(--font-h); font-weight: 600;
     font-size: 1.1rem; letter-spacing: -0.02em;
