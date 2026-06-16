@@ -34,6 +34,13 @@
       </div>
     </div>
   </div>
+
+  <div class="scroll-indicator" aria-hidden="true">
+    <span class="si-text">Scroll</span>
+    <svg width="14" height="20" viewBox="0 0 14 20" fill="none">
+      <path d="M7 3v14M1 11l6 6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
 </section>
 
 <style>
@@ -46,7 +53,7 @@
   #hero::before {
     content: '';
     position: absolute; inset: 0;
-    background: radial-gradient(ellipse 80% 55% at 50% -10%, rgba(168,85,247,0.07) 0%, transparent 65%);
+    background: radial-gradient(ellipse 90% 60% at 50% -5%, rgba(168,85,247,0.08) 0%, transparent 65%);
     pointer-events: none; z-index: 0;
   }
   #hero-cvs {
@@ -54,9 +61,21 @@
     width: 100%; height: 100%;
     pointer-events: none; z-index: 0;
   }
+  .hero-glow {
+    position: absolute;
+    width: 800px; height: 300px;
+    top: 15%; left: 50%; transform: translateX(-50%);
+    background: radial-gradient(ellipse at 50% 80%, rgba(168,85,247,0.09) 0%, transparent 70%);
+    pointer-events: none; z-index: 0;
+    filter: blur(40px);
+  }
+
+  /* ── Content ── */
   .hero-content {
     position: relative; z-index: 1;
-    max-width: 700px; padding: 80px 0;
+    max-width: 740px; margin: 0 auto;
+    padding: 80px 0;
+    text-align: center;
   }
   .hero-badge {
     display: inline-flex; align-items: center; gap: 8px;
@@ -72,27 +91,27 @@
   @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
   .hero-title {
     font-family: var(--font-h);
-    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    font-size: clamp(2.6rem, 5.5vw, 4.2rem);
     font-weight: 700; line-height: 1.1;
     letter-spacing: -0.03em; margin-bottom: 20px;
-    text-shadow: 0 2px 24px rgba(0,0,0,0.6);
+    text-shadow: 0 2px 32px rgba(0,0,0,0.7);
   }
   .hero-subtitle {
-    font-size: 1.05rem; font-weight: 300;
-    color: var(--text-secondary); max-width: 520px;
+    font-size: 1.08rem; font-weight: 300;
+    color: var(--text-secondary);
     line-height: 1.75; margin-bottom: 40px;
-    text-shadow: 0 1px 12px rgba(0,0,0,0.5);
+    text-shadow: 0 1px 16px rgba(0,0,0,0.5);
   }
-  .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+  .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
   .hero-reassurance {
     font-family: var(--font-h); font-size: 0.78rem;
     color: var(--text-muted); margin-bottom: 32px;
-    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap;
   }
   .hero-reassurance span { display: flex; align-items: center; gap: 6px; }
   .hero-reassurance span::before { content: '✓'; color: var(--accent); font-size: 0.7rem; }
   .hero-clients {
-    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;
     padding-top: 28px; border-top: 1px solid var(--border);
   }
   .hero-clients-label {
@@ -107,21 +126,29 @@
   .hero-clients-names .dot {
     width: 3px; height: 3px; background: var(--text-muted); border-radius: 50%;
   }
-  .hero-glow {
-    position: absolute;
-    width: 720px; height: 520px;
-    top: 5%; left: -12%;
-    background: radial-gradient(ellipse at 35% 45%, rgba(168,85,247,0.16) 0%, rgba(109,40,217,0.07) 45%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
-    filter: blur(48px);
+
+  /* ── Scroll indicator ── */
+  .scroll-indicator {
+    position: absolute; bottom: 28px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 5px;
+    color: var(--text-muted); font-family: var(--font-h);
+    font-size: 0.58rem; font-weight: 500; letter-spacing: 0.15em;
+    text-transform: uppercase; opacity: 0; z-index: 2;
+    animation: si-bounce 2.4s ease-in-out infinite;
   }
+  @keyframes si-bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50%       { transform: translateX(-50%) translateY(7px); }
+  }
+
   @media (max-width: 640px) {
     .hero-content { padding: 40px 0; }
     .hero-title { margin-bottom: 16px; }
     .hero-subtitle { font-size: 0.95rem; margin-bottom: 28px; }
-    .hero-ctas { flex-direction: column; }
-    .hero-ctas .btn { text-align: center; }
+    .hero-ctas { flex-direction: column; align-items: center; }
+    .hero-ctas .btn { text-align: center; width: 100%; max-width: 280px; }
+    .hero-reassurance { gap: 12px; }
   }
 </style>
 
@@ -130,21 +157,23 @@
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
   gsap.registerPlugin(ScrollTrigger);
 
-  /* GSAP hero entrance — respeta prefers-reduced-motion */
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (prefersReduced) {
     document.querySelectorAll('.reveal').forEach(el => {
       (el as HTMLElement).style.opacity = '1';
     });
+    (document.querySelector('.scroll-indicator') as HTMLElement | null)?.style.setProperty('opacity', '0.5');
   } else {
-    gsap.timeline({ delay: 0.15 })
+    gsap.timeline({ delay: 0.2 })
       .from('.hero-badge',       { opacity:0, y:16, duration:0.5, ease:'power2.out' })
-      .from('.hero-title',       { opacity:0, y:24, duration:0.6, ease:'power2.out' }, '-=0.2')
+      .from('.hero-title',       { opacity:0, y:28, duration:0.65, ease:'power2.out' }, '-=0.2')
       .from('.hero-subtitle',    { opacity:0, y:16, duration:0.5, ease:'power2.out' }, '-=0.3')
       .from('.hero-ctas',        { opacity:0, y:16, duration:0.5, ease:'power2.out' }, '-=0.3')
       .from('.hero-reassurance', { opacity:0, y:10, duration:0.4, ease:'power2.out' }, '-=0.2')
       .from('.hero-clients',     { opacity:0, y:10, duration:0.4, ease:'power2.out' }, '-=0.2');
+
+    gsap.to('.scroll-indicator', { opacity:0.5, duration:0.6, delay:2.0, ease:'power2.out' });
 
     gsap.utils.toArray('.reveal').forEach(el => {
       gsap.fromTo(el,
@@ -156,107 +185,252 @@
     });
   }
 
-  /* Red neuronal */
+  /* Perspective grid — estilo wope */
   (function() {
-    const cvs = document.getElementById('hero-cvs');
+    const cvs = document.getElementById('hero-cvs') as HTMLCanvasElement | null;
     if (!cvs) return;
     const ctx = cvs.getContext('2d');
-    const RGB = '56,189,248';
-    const N_COUNT = window.innerWidth < 640 ? 55 : 115, MIN_SEP = 60, MAX_SYN = 185, K_SYN = 5, MAX_SIG = 30;
-    let neurons = [], synapses = [], signals = [];
+    if (!ctx) return;
+
+    let t = 0, prevTs = 0;
+
+    /* Marcadores "via" tipo PCB sobre el grid del suelo — identidad de circuito */
+    const LANE_FRACS = [-0.82, -0.58, -0.34, -0.12, 0.12, 0.34, 0.58, 0.82];
+    function pseudoRandom(seed: number) {
+      const x = Math.sin(seed * 12.9898) * 43758.5453;
+      return x - Math.floor(x);
+    }
+
+    /* Red neuronal — "como piensa la IA", en la zona de cielo del hero */
+    type Neuron  = { x:number; y:number; energy:number; refr:number };
+    type Synapse = { a:number; b:number; flash:number };
+    type Signal  = { sx:number; sy:number; tx:number; ty:number; toIdx:number; prog:number; spd:number; synIdx:number; depth:number; fired:boolean };
+
+    let neurons: Neuron[]   = [];
+    let synapses: Synapse[] = [];
+    let signals: Signal[]   = [];
+    let nextThought = 0;
 
     function resize() {
       const hero = document.getElementById('hero');
-      cvs.width  = hero.offsetWidth  || window.innerWidth;
-      cvs.height = hero.offsetHeight || window.innerHeight;
-      build();
+      cvs.width  = hero?.offsetWidth  || window.innerWidth;
+      cvs.height = hero?.offsetHeight || window.innerHeight;
+      buildNeurons();
     }
-    function build() {
-      neurons = []; synapses = []; signals = [];
+
+    function buildNeurons() {
+      neurons = []; synapses = []; signals = []; nextThought = 0;
+
+      const skyH   = cvs.height * 0.56; // zona de cielo, donde antes iban las estrellas
+      const area   = cvs.width * skyH;
+      const N_COUNT = Math.max(30, Math.min(120, Math.floor(area / 9000)));
+      const MIN_SEP = 50;  // separación mínima entre neuronas
+      const MAX_SYN = 150; // largo máximo de sinapsis
+      const K_SYN   = 4;   // sinapsis por neurona
+
       let tries = 0;
       while (neurons.length < N_COUNT && tries < N_COUNT * 80) {
-        const x = Math.random() * cvs.width, y = Math.random() * cvs.height;
-        if (neurons.every(n => Math.hypot(n.x-x, n.y-y) >= MIN_SEP))
-          neurons.push({ x, y, energy:0, refr:0 });
+        const x = Math.random() * cvs.width;
+        const y = Math.random() * skyH;
+        if (neurons.every(n => Math.hypot(n.x - x, n.y - y) >= MIN_SEP)) {
+          neurons.push({ x, y, energy: 0, refr: 0 });
+        }
         tries++;
       }
+
       neurons.forEach((n, i) => {
-        neurons.map((m,j) => ({j, d:Math.hypot(n.x-m.x, n.y-m.y)}))
-          .filter(e => e.j!==i && e.d<=MAX_SYN)
-          .sort((a,b) => a.d-b.d).slice(0,K_SYN)
-          .forEach(({j}) => {
-            if (!synapses.some(s => (s.a===i&&s.b===j)||(s.a===j&&s.b===i)))
-              synapses.push({a:i, b:j, flash:0});
+        neurons
+          .map((m, j) => ({ j, d: Math.hypot(n.x - m.x, n.y - m.y) }))
+          .filter(e => e.j !== i && e.d <= MAX_SYN)
+          .sort((a, b) => a.d - b.d)
+          .slice(0, K_SYN)
+          .forEach(({ j }) => {
+            if (!synapses.some(s => (s.a === i && s.b === j) || (s.a === j && s.b === i))) {
+              synapses.push({ a: i, b: j, flash: 0 });
+            }
           });
       });
     }
-    function fire(idx, depth) {
-      if (depth > 3) return;
-      const n = neurons[idx]; if (!n || n.refr > 0) return;
-      n.energy = 1.0; n.refr = 3000 + Math.random() * 2000;
-      synapses.forEach((s, si) => {
-        let target = s.a===idx ? s.b : s.b===idx ? s.a : -1;
-        if (target < 0 || neurons[target].refr > 0) return;
-        if (signals.length >= MAX_SIG || Math.random() > .22) return;
-        const from = neurons[idx], to = neurons[target];
-        signals.push({ sx:from.x, sy:from.y, tx:to.x, ty:to.y, toIdx:target, t:0,
-          spd:.003+Math.random()*.003, synIdx:si, depth:depth+1, fired:false });
-      });
-    }
-    function thought() {
-      const free = neurons.map((n,i)=>({n,i})).filter(({n})=>n.refr<=0).map(({i})=>i);
-      if (free.length) fire(free[Math.floor(Math.random()*free.length)], 0);
-      setTimeout(thought, 1800 + Math.random() * 2400);
-    }
-    setTimeout(thought, 500);
 
-    let prevTs = 0;
-    function frame(ts) {
-      const dt = Math.min(ts-prevTs, 50); prevTs = ts;
-      ctx.clearRect(0, 0, cvs.width, cvs.height);
-      const breathe = .028 + Math.sin(ts/2800) * .01;
-      neurons.forEach(n => {
-        if (n.energy > 0) n.energy = Math.max(0, n.energy-.007);
-        if (n.refr   > 0) n.refr   = Math.max(0, n.refr-dt);
+    /* Dispara una neurona: se enciende y propaga señales a vecinas */
+    function fire(idx: number, depth: number) {
+      if (depth > 3) return;
+      const n = neurons[idx];
+      if (!n || n.refr > 0) return;
+      n.energy = 1.0;
+      n.refr   = 4 + Math.random() * 3; // reposo largo: 4-7s
+
+      synapses.forEach((s, si) => {
+        let target = -1;
+        if (s.a === idx) target = s.b;
+        else if (s.b === idx) target = s.a;
+        if (target < 0 || neurons[target].refr > 0) return;
+        if (signals.length >= 30 || Math.random() > 0.28) return; // solo 28% propaga
+
+        const from = neurons[idx], to = neurons[target];
+        signals.push({
+          sx: from.x, sy: from.y, tx: to.x, ty: to.y,
+          toIdx: target, prog: 0,
+          spd: 0.18 + Math.random() * 0.2, // progreso/seg — viaje lento y elegante
+          synIdx: si, depth: depth + 1, fired: false,
+        });
       });
-      synapses.forEach(s => { if (s.flash>0) s.flash = Math.max(0, s.flash-.018); });
+    }
+
+    function frame(ts: number) {
+      const dt = Math.min(ts - prevTs, 50) / 1000;
+      prevTs = ts; t += dt;
+
+      const w = cvs.width, h = cvs.height;
+      ctx.clearRect(0, 0, w, h);
+
+      const cx  = w * 0.5;
+      const hor = h * 0.52; // línea del horizonte
+
+      /* ── Pensamiento espontáneo: dispara una neurona libre cada 3-7s ── */
+      if (t > nextThought) {
+        const free: number[] = [];
+        neurons.forEach((n, i) => { if (n.refr <= 0) free.push(i); });
+        if (free.length) fire(free[Math.floor(Math.random() * free.length)], 0);
+        nextThought = t + 3 + Math.random() * 4;
+      }
+
+      /* ── Actualizar estados de neuronas y sinapsis ── */
+      neurons.forEach(n => {
+        if (n.energy > 0) n.energy = Math.max(0, n.energy - 0.42 * dt); // brillo dura ~2.4s
+        if (n.refr   > 0) n.refr   = Math.max(0, n.refr - dt);
+      });
+      synapses.forEach(s => { if (s.flash > 0) s.flash = Math.max(0, s.flash - 1.1 * dt); });
+
+      /* ── Sinapsis (conexiones entre neuronas) ── */
+      const breathe = 0.026 + Math.sin(t * 0.36) * 0.01;
       synapses.forEach(s => {
         const a = neurons[s.a], b = neurons[s.b];
-        ctx.strokeStyle = `rgba(${RGB},${breathe+s.flash*.2})`;
-        ctx.lineWidth = .45 + s.flash*.65;
-        ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+        ctx.strokeStyle = `rgba(190,150,255,${breathe + s.flash * 0.2})`;
+        ctx.lineWidth = 0.45 + s.flash * 0.65;
+        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
       });
+
+      /* ── Neuronas ── */
       neurons.forEach(n => {
         const e = n.energy;
         if (e > 0.12) {
-          const gr = e*26, g = ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,gr);
-          g.addColorStop(0,`rgba(${RGB},${e*.28})`); g.addColorStop(1,`rgba(${RGB},0)`);
-          ctx.beginPath(); ctx.arc(n.x,n.y,gr,0,Math.PI*2);
-          ctx.fillStyle=g; ctx.fill();
+          const gr = e * 24;
+          const g = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, gr);
+          g.addColorStop(0, `rgba(220,190,255,${e * 0.3})`);
+          g.addColorStop(1, 'rgba(220,190,255,0)');
+          ctx.beginPath(); ctx.arc(n.x, n.y, gr, 0, Math.PI * 2);
+          ctx.fillStyle = g; ctx.fill();
         }
-        ctx.beginPath(); ctx.arc(n.x,n.y,1.8+e*3.2,0,Math.PI*2);
-        ctx.fillStyle=`rgba(${RGB},${.11+e*.78})`; ctx.fill();
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, 1.6 + e * 2.8, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(225,205,255,${0.12 + e * 0.75})`;
+        ctx.fill();
       });
-      signals = signals.filter(p => p.t < 1.06);
+
+      /* ── Señales viajando por las sinapsis (pensamientos) ── */
+      signals = signals.filter(p => p.prog < 1.08);
       signals.forEach(p => {
-        p.t += p.spd;
-        const t = Math.min(1,p.t), x = p.sx+(p.tx-p.sx)*t, y = p.sy+(p.ty-p.sy)*t;
-        synapses[p.synIdx].flash = Math.max(synapses[p.synIdx].flash, .78);
-        if (p.t>=1 && !p.fired) { p.fired=true; fire(p.toIdx,p.depth); }
-        const t0 = Math.max(0,t-.22), x0 = p.sx+(p.tx-p.sx)*t0, y0 = p.sy+(p.ty-p.sy)*t0;
-        const tg = ctx.createLinearGradient(x0,y0,x,y);
-        tg.addColorStop(0,`rgba(${RGB},0)`); tg.addColorStop(1,`rgba(${RGB},.65)`);
-        ctx.strokeStyle=tg; ctx.lineWidth=1.1;
-        ctx.beginPath(); ctx.moveTo(x0,y0); ctx.lineTo(x,y); ctx.stroke();
-        const g = ctx.createRadialGradient(x,y,0,x,y,8);
-        g.addColorStop(0,`rgba(${RGB},.42)`); g.addColorStop(1,`rgba(${RGB},0)`);
-        ctx.beginPath(); ctx.arc(x,y,8,0,Math.PI*2); ctx.fillStyle=g; ctx.fill();
-        ctx.beginPath(); ctx.arc(x,y,2,0,Math.PI*2);
-        ctx.fillStyle='rgba(255,255,255,.88)'; ctx.fill();
+        p.prog += p.spd * dt;
+        const pr = Math.min(1, p.prog);
+        const x = p.sx + (p.tx - p.sx) * pr;
+        const y = p.sy + (p.ty - p.sy) * pr;
+
+        synapses[p.synIdx].flash = Math.max(synapses[p.synIdx].flash, 0.78);
+
+        if (p.prog >= 1 && !p.fired) { p.fired = true; fire(p.toIdx, p.depth); }
+
+        const pr0 = Math.max(0, pr - 0.22);
+        const x0 = p.sx + (p.tx - p.sx) * pr0;
+        const y0 = p.sy + (p.ty - p.sy) * pr0;
+        const tg = ctx.createLinearGradient(x0, y0, x, y);
+        tg.addColorStop(0, 'rgba(220,190,255,0)');
+        tg.addColorStop(1, 'rgba(220,190,255,0.65)');
+        ctx.strokeStyle = tg; ctx.lineWidth = 1.1;
+        ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x, y); ctx.stroke();
+
+        const g = ctx.createRadialGradient(x, y, 0, x, y, 8);
+        g.addColorStop(0, 'rgba(220,190,255,0.42)');
+        g.addColorStop(1, 'rgba(220,190,255,0)');
+        ctx.beginPath(); ctx.arc(x, y, 8, 0, Math.PI * 2);
+        ctx.fillStyle = g; ctx.fill();
+
+        ctx.beginPath(); ctx.arc(x, y, 2, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255,255,255,0.88)'; ctx.fill();
       });
+
+      /* ── Glow principal en el horizonte ── */
+      /* Elipse horizontal grande — el elemento dominante de wope */
+      ctx.save();
+      ctx.scale(1, 0.38);
+      const bigGlow = ctx.createRadialGradient(cx, hor / 0.38, 0, cx, hor / 0.38, w * 0.62);
+      bigGlow.addColorStop(0,    'rgba(210,120,255,0.62)');
+      bigGlow.addColorStop(0.12, 'rgba(168,85,247,0.38)');
+      bigGlow.addColorStop(0.35, 'rgba(120,40,200,0.12)');
+      bigGlow.addColorStop(1,    'rgba(0,0,0,0)');
+      ctx.fillStyle = bigGlow;
+      ctx.beginPath();
+      ctx.arc(cx, hor / 0.38, w * 0.62, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+
+      /* Núcleo brillante — punto central muy luminoso */
+      ctx.save();
+      ctx.scale(2.2, 0.22);
+      const core = ctx.createRadialGradient(cx / 2.2, hor / 0.22, 0, cx / 2.2, hor / 0.22, w * 0.16);
+      core.addColorStop(0,    'rgba(240,180,255,0.85)');
+      core.addColorStop(0.25, 'rgba(200,120,255,0.35)');
+      core.addColorStop(1,    'rgba(0,0,0,0)');
+      ctx.fillStyle = core;
+      ctx.beginPath();
+      ctx.arc(cx / 2.2, hor / 0.22, w * 0.16, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+
+      /* ── Grid horizontal animado, líneas rectas tipo cuadrícula (solo suelo) ── */
+      const N_RINGS = 18;
+      const spd = 0.0175;
+      const floorH = h - hor;
+
+      for (let i = 0; i < N_RINGS; i++) {
+        const raw = ((i / N_RINGS) + t * spd) % 1;
+        const p   = Math.pow(raw, 2.4); // curva perspectiva pronunciada
+        const y   = hor + p * (floorH + 20);
+        if (y > h + 12) continue;
+        const hw  = p * w * 0.98;
+        /* más brillante cerca del horizonte */
+        const nearHor = Math.pow(1 - Math.pow(raw, 0.6), 2);
+        const alpha   = Math.min(nearHor * 0.45 + p * 0.16, 0.5);
+
+        ctx.strokeStyle = `rgba(255,55,180,${alpha})`;
+        ctx.lineWidth   = 0.6 + p * 1.2;
+        ctx.beginPath();
+        ctx.moveTo(cx - hw, y);
+        ctx.lineTo(cx + hw, y);
+        ctx.stroke();
+
+        /* ── Marcadores "via" tipo PCB en algunas intersecciones ── */
+        LANE_FRACS.forEach((frac, j) => {
+          const seed = i * 37 + j * 113;
+          if (pseudoRandom(seed) > 0.32) return; // solo algunas posiciones tienen via
+          const vx = cx + frac * hw;
+          const twinkle = 0.5 + Math.sin(t * (0.6 + pseudoRandom(seed + 7) * 0.8) + seed) * 0.5;
+          const va = Math.min(alpha * 1.7, 0.6) * (0.45 + twinkle * 0.55);
+          if (va < 0.04) return;
+          const size = 2 + alpha * 7;
+          ctx.save();
+          ctx.translate(vx, y);
+          ctx.rotate(Math.PI / 4);
+          ctx.fillStyle = `rgba(255,225,250,${va})`;
+          ctx.fillRect(-size / 2, -size / 2, size, size);
+          ctx.restore();
+        });
+      }
+
       requestAnimationFrame(frame);
     }
-    let rt;
+
+    let rt: ReturnType<typeof setTimeout>;
     window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(resize, 150); });
     resize();
     requestAnimationFrame(frame);
