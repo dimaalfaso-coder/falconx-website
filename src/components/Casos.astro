@@ -22,7 +22,12 @@
       <div class="case-card reveal">
         <a class="case-client" href="https://portalfirma.cl" target="_blank" rel="noopener noreferrer">portalfirma.cl — Firma electrónica ↗</a>
         <h3>Notificaciones notariales vía WhatsApp</h3>
-        <p>Los clientes reciben actualizaciones automáticas de sus trámites por WhatsApp — desde el inicio hasta la entrega del documento legalizado. Pipeline validado de extremo a extremo.</p>
+        <p>Los clientes de Portal Firma reciben por WhatsApp cada paso de su trámite: el link para firmar, el aviso de documento firmado y el de documento legalizado. Sin que nadie del equipo tenga que escribirlos.</p>
+        <div class="case-stats">
+          <div class="case-stat"><strong>+150</strong><span>avisos por WhatsApp cada día</span></div>
+          <div class="case-stat"><strong>750</strong><span>notificaciones enviadas en 4 días</span></div>
+        </div>
+        <p class="case-note">Datos de septiembre de 2026.</p>
         <div class="tags">
           <span class="tag">WhatsApp automatizado</span>
           <span class="tag">5 tipos de aviso</span>
@@ -47,6 +52,12 @@
   .case-client:hover { color: var(--accent); }
   .case-card h3 { font-family: var(--font-h); font-size: 1.2rem; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 12px; }
   .case-card p { color: var(--text-secondary); font-size: 0.875rem; line-height: 1.65; font-weight: 300; margin-bottom: 24px; }
+  .case-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 8px; }
+  .case-stat { background: var(--accent-dim); border: 1px solid var(--accent-border); border-radius: var(--r-sm); padding: 14px 16px; }
+  .case-stat strong { display: block; font-family: var(--font-h); font-size: 1.9rem; font-weight: 700; line-height: 1.05; letter-spacing: -0.03em;
+    background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .case-stat span { display: block; margin-top: 4px; font-size: 0.78rem; line-height: 1.4; color: var(--text-secondary); }
+  .case-card p.case-note { font-size: 0.72rem; color: var(--text-muted); margin-bottom: 20px; }
   @media (max-width: 640px) {
     .case-card { padding: 24px; }
   }
