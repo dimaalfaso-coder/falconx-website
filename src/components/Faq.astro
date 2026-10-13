@@ -1,0 +1,89 @@
+---
+// Solo preguntas con respuesta confirmada. Pendientes de Diego (precio, asistente que se presenta
+// como IA, número actual, ajustes por cambios de Meta): ver docs/faq-borrador.md
+const faqs = [
+  {
+    q: '¿Necesito saber de tecnología para usar esto?',
+    a: 'No. Nosotros configuramos y mantenemos todo, y no tienes que tocar nada técnico. El asistente atiende las consultas que se repiten para que tu equipo se ocupe del resto.',
+  },
+  {
+    q: '¿Cuánto tarda en estar funcionando?',
+    a: 'Alrededor de una semana desde que apruebas el diseño; las aprobaciones de WhatsApp pueden sumar algunos días. Antes de lanzarlo lo probamos con la información de tu negocio, para que tus clientes reciban respuestas correctas desde el primer día.',
+  },
+  {
+    q: '¿Qué pasa si el asistente no sabe responder?',
+    a: 'Le indica a tu cliente cómo hablar directamente con una persona de tu equipo, por ejemplo por un WhatsApp de atención. Así ninguna consulta queda sin respuesta.',
+  },
+  {
+    q: '¿Puedo mandar mensajes masivos a cualquier lista de contactos?',
+    a: 'Solo a personas que aceptaron recibir mensajes tuyos por WhatsApp. Es una regla de WhatsApp: los envíos a quienes no lo pidieron pueden terminar con tu número restringido o suspendido. Te ayudamos a armar tus listas y mensajes para que lleguen sin problemas.',
+  },
+  {
+    q: '¿Tengo que firmar un contrato largo?',
+    a: 'No. Trabajamos sin contratos de permanencia.',
+  },
+  {
+    q: '¿Qué pasa con los datos de mis clientes?',
+    a: 'Se usan solo para atenderlos y se tratan según la ley chilena de protección de datos personales. Puedes leer el detalle en nuestra <a href="/privacidad">política de privacidad</a>.',
+  },
+  {
+    q: '¿Sirve para mi tipo de negocio?',
+    a: 'Si recibes muchas consultas parecidas por WhatsApp o redes sociales, probablemente sí. Hoy lo usan una joyería, que atiende consultas y agenda visitas, y una plataforma de firma electrónica, que avisa a sus clientes cada paso de su trámite. En el diagnóstico vemos si tiene sentido en tu caso.',
+  },
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(({ q, a }) => ({
+    '@type': 'Question',
+    name: q,
+    acceptedAnswer: { '@type': 'Answer', text: a.replace(/<[^>]+>/g, '') },
+  })),
+};
+---
+<section id="faq">
+  <div class="container">
+    <p class="s-label reveal">Preguntas frecuentes</p>
+    <h2 class="s-title reveal">Lo que nos preguntan antes de empezar</h2>
+
+    <div class="faq-list reveal">
+      {faqs.map(({ q, a }) => (
+        <details class="faq-item">
+          <summary>{q}</summary>
+          <p set:html={a} />
+        </details>
+      ))}
+    </div>
+
+    <div class="s-cta reveal">
+      <p>¿Tienes otra pregunta?</p>
+      <a href="#contacto" class="btn btn-primary">Escríbenos →</a>
+    </div>
+  </div>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+</section>
+
+<style>
+  .faq-list { max-width: 760px; display: flex; flex-direction: column; gap: 10px; }
+  .faq-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r-sm); transition: border-color var(--ease); }
+  .faq-item:hover, .faq-item[open] { border-color: var(--accent-border); }
+  .faq-item summary {
+    list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    padding: 18px 20px; font-family: var(--font-h); font-size: 1rem; font-weight: 600; letter-spacing: -0.01em; color: var(--text-primary);
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::after {
+    content: '+'; flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center; font-weight: 500; font-size: 1.1rem; color: var(--accent);
+    transition: transform var(--ease), border-color var(--ease);
+  }
+  .faq-item[open] summary::after { content: '−'; border-color: var(--accent-border); }
+  .faq-item summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: var(--r-sm); }
+  .faq-item p { padding: 0 20px 20px; color: var(--text-secondary); font-size: 0.92rem; line-height: 1.7; font-weight: 300; }
+  .faq-item p :global(a) { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+  @media (max-width: 640px) {
+    .faq-item summary { padding: 16px; font-size: 0.95rem; }
+    .faq-item p { padding: 0 16px 16px; }
+  }
+</style>
