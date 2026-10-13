@@ -214,10 +214,46 @@
     let nextThought = 0;
     let thoughtsFired = 0; // cuenta para una arrancada rápida y luego asentarse
 
+    /* El brillo del horizonte no cambia entre cuadros: se pinta una vez por tamaño y se reutiliza */
+    const glowLayer = document.createElement('canvas');
+
+    function paintGlow() {
+      const w = cvs.width, h = cvs.height, cx = w * 0.5, hor = h * 0.40;
+      glowLayer.width = w; glowLayer.height = h;
+      const g = glowLayer.getContext('2d');
+      if (!g) return;
+
+      g.save();
+      g.scale(1, 0.38);
+      const bigGlow = g.createRadialGradient(cx, hor / 0.38, 0, cx, hor / 0.38, w * 0.62);
+      bigGlow.addColorStop(0,    'rgba(210,120,255,0.38)');
+      bigGlow.addColorStop(0.12, 'rgba(168,85,247,0.26)');
+      bigGlow.addColorStop(0.35, 'rgba(120,40,200,0.12)');
+      bigGlow.addColorStop(1,    'rgba(0,0,0,0)');
+      g.fillStyle = bigGlow;
+      g.beginPath();
+      g.arc(cx, hor / 0.38, w * 0.62, 0, Math.PI * 2);
+      g.fill();
+      g.restore();
+
+      g.save();
+      g.scale(2.2, 0.22);
+      const core = g.createRadialGradient(cx / 2.2, hor / 0.22, 0, cx / 2.2, hor / 0.22, w * 0.16);
+      core.addColorStop(0,    'rgba(240,180,255,0.32)');
+      core.addColorStop(0.25, 'rgba(200,120,255,0.14)');
+      core.addColorStop(1,    'rgba(0,0,0,0)');
+      g.fillStyle = core;
+      g.beginPath();
+      g.arc(cx / 2.2, hor / 0.22, w * 0.16, 0, Math.PI * 2);
+      g.fill();
+      g.restore();
+    }
+
     function resize() {
       const hero = document.getElementById('hero');
       cvs.width  = hero?.offsetWidth  || window.innerWidth;
       cvs.height = hero?.offsetHeight || window.innerHeight;
+      paintGlow();
       buildNeurons();
     }
 
@@ -288,11 +324,27 @@
       });
     }
 
+    function next() {
+      if (visible) {
+        requestAnimationFrame(frame);
+      } else {
+        rafRunning = false;
+      }
+    }
+
+    let lastDraw = 0;
+
     function frame(ts: number) {
+      const w = cvs.width, h = cvs.height;
+      /* Celulares: 30 fps, sin brillo en las líneas y menos segmentos — en un móvil de gama media
+         la versión completa corría a ~11 fps y bloqueaba el hilo principal casi todo el tiempo */
+      const LITE = w < 768;
+      if (LITE && ts - lastDraw < 32) { next(); return; }
+      lastDraw = ts;
+
       const dt = Math.min(ts - prevTs, 50) / 1000;
       prevTs = ts; t += dt;
 
-      const w = cvs.width, h = cvs.height;
       ctx.clearRect(0, 0, w, h);
 
       const cx  = w * 0.5;
@@ -372,33 +424,8 @@
         ctx.fillStyle = 'rgba(255,255,255,0.88)'; ctx.fill();
       });
 
-      /* ── Glow principal en el horizonte ── */
-      /* Elipse horizontal grande — el elemento dominante de wope */
-      ctx.save();
-      ctx.scale(1, 0.38);
-      const bigGlow = ctx.createRadialGradient(cx, hor / 0.38, 0, cx, hor / 0.38, w * 0.62);
-      bigGlow.addColorStop(0,    'rgba(210,120,255,0.38)');
-      bigGlow.addColorStop(0.12, 'rgba(168,85,247,0.26)');
-      bigGlow.addColorStop(0.35, 'rgba(120,40,200,0.12)');
-      bigGlow.addColorStop(1,    'rgba(0,0,0,0)');
-      ctx.fillStyle = bigGlow;
-      ctx.beginPath();
-      ctx.arc(cx, hor / 0.38, w * 0.62, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.restore();
-
-      /* Núcleo brillante — punto central muy luminoso */
-      ctx.save();
-      ctx.scale(2.2, 0.22);
-      const core = ctx.createRadialGradient(cx / 2.2, hor / 0.22, 0, cx / 2.2, hor / 0.22, w * 0.16);
-      core.addColorStop(0,    'rgba(240,180,255,0.32)');
-      core.addColorStop(0.25, 'rgba(200,120,255,0.14)');
-      core.addColorStop(1,    'rgba(0,0,0,0)');
-      ctx.fillStyle = core;
-      ctx.beginPath();
-      ctx.arc(cx / 2.2, hor / 0.22, w * 0.16, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.restore();
+      /* ── Glow principal en el horizonte (capa precalculada en paintGlow) ── */
+      ctx.drawImage(glowLayer, 0, 0);
 
       /* ── Pliegue de la malla: el suelo se curva hacia abajo en los bordes,
          más marcado cerca del visitante (p→1) — le da la "caída" de profundidad ── */
@@ -410,15 +437,15 @@
 
       /* ── Líneas verticales del grid, convergiendo al punto de fuga y curvándose hacia abajo ── */
       ctx.shadowColor = 'rgba(255,20,210,0.9)';
-      ctx.shadowBlur  = 6;
+      ctx.shadowBlur  = LITE ? 0 : 6;
       const N_VERT = 16;
-      const V_SEGS = 22;
+      const V_SEGS = LITE ? 12 : 22;
       for (let i = 0; i <= N_VERT; i++) {
         const f      = i / N_VERT;
         const fracX  = (f - 0.5) * 2; // -1 en el borde izq, 1 en el derecho
         const dist   = Math.abs(fracX); // 0 al centro, 1 en los bordes
-        ctx.strokeStyle = `rgba(255,30,220,${(1 - dist * 0.78) * 0.35})`;
-        ctx.lineWidth = 0.7;
+        ctx.strokeStyle = `rgba(255,30,220,${(1 - dist * 0.78) * (LITE ? 0.46 : 0.35)})`;
+        ctx.lineWidth = LITE ? 0.9 : 0.7;
         ctx.beginPath();
         for (let s = 0; s <= V_SEGS; s++) {
           const p  = s / V_SEGS;
@@ -434,7 +461,7 @@
       /* ── Grid horizontal animado, ahora con pliegue hacia abajo en los bordes (solo suelo) ── */
       const N_RINGS = 18;
       const spd = 0.0175;
-      const H_SEGS = 22;
+      const H_SEGS = LITE ? 12 : 22;
 
       for (let i = 0; i < N_RINGS; i++) {
         const raw = ((i / N_RINGS) + t * spd) % 1;
@@ -447,9 +474,10 @@
         const alpha   = Math.min(nearHor * 0.45 + p * 0.16, 0.5);
 
         ctx.shadowColor = 'rgba(255,20,210,0.9)';
-        ctx.shadowBlur  = 4 + p * 5;
-        ctx.strokeStyle = `rgba(255,30,220,${alpha})`;
-        ctx.lineWidth   = 0.6 + p * 1.2;
+        ctx.shadowBlur  = LITE ? 0 : 4 + p * 5;
+        /* sin shadowBlur en móvil: algo más de intensidad y grosor para conservar el neón */
+        ctx.strokeStyle = `rgba(255,30,220,${LITE ? Math.min(alpha * 1.35, 0.62) : alpha})`;
+        ctx.lineWidth   = 0.6 + p * 1.2 + (LITE ? 0.3 : 0);
         ctx.beginPath();
         for (let s = 0; s <= H_SEGS; s++) {
           const fr    = s / H_SEGS;
@@ -480,11 +508,7 @@
         });
       }
 
-      if (visible) {
-        requestAnimationFrame(frame);
-      } else {
-        rafRunning = false;
-      }
+      next();
     }
 
     /* Pausa el loop cuando el hero no está en pantalla — ahorra CPU/batería

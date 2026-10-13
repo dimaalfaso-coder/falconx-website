@@ -1,6 +1,7 @@
 ---
 import '@fontsource-variable/space-grotesk';
 import '@fontsource-variable/dm-sans/opsz.css';
+import titleFontUrl from '@fontsource-variable/space-grotesk/files/space-grotesk-latin-wght-normal.woff2?url';
 
 interface Props {
   title?: string;
@@ -36,6 +37,8 @@ const ogImage = new URL('/assets/imagenes/og-falconx.jpg', Astro.site).href;
   <link rel="icon" href="/assets/imagenes/logo-falconx.svg" type="image/svg+xml">
   <link rel="canonical" href={canonical}>
   <link rel="sitemap" href="/sitemap-index.xml">
+  <!-- Fuente del titular (LCP): precargada para evitar el salto al cambiar de la provisoria -->
+  <link rel="preload" href={titleFontUrl} as="font" type="font/woff2" crossorigin>
 </head>
 <body>
 
