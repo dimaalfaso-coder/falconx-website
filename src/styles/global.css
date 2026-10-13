@@ -1,6 +1,45 @@
 /* ── RESET ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* ── FALLBACK DE SPACE GROTESK CON MÉTRICAS AJUSTADAS ──
+   Mientras carga la fuente real, el titular se dibuja con una fuente local escalada para ocupar
+   el mismo ancho y alto. Sin esto, en 390 px el titular cambia de cortes de línea al cargar la
+   fuente y el bloque del hero salta (CLS 0,128 medido con la fuente retrasada).
+   Valores calculados con fontTools sobre space-grotesk-latin-wght (300/700) vs Arial y Roboto. */
+@font-face {
+  font-family: 'Space Grotesk Fallback';
+  src: local('Arial'), local('ArialMT');
+  font-weight: 300 599;
+  size-adjust: 106.56%; ascent-override: 92.34%; descent-override: 27.40%; line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Space Grotesk Fallback';
+  src: local('Arial Bold'), local('Arial-BoldMT');
+  font-weight: 600 699;
+  size-adjust: 100.73%; ascent-override: 97.69%; descent-override: 28.99%; line-gap-override: 0%;
+}
+/* 700 = titular del hero: calibrado con el ancho renderizado de "IA que trabaja 24/7"
+   (real 355,5 px vs Arial 345 px a 41,6 px), que en 390 px cae justo en el límite de corte */
+@font-face {
+  font-family: 'Space Grotesk Fallback';
+  src: local('Arial Bold'), local('Arial-BoldMT');
+  font-weight: 700 900;
+  size-adjust: 103.79%; ascent-override: 94.81%; descent-override: 28.13%; line-gap-override: 0%;
+}
+/* Android no trae Arial: si los faces de arriba no cargan, el navegador pasa a Roboto */
+@font-face {
+  font-family: 'Space Grotesk Fallback Roboto';
+  src: local('Roboto'), local('Roboto-Regular');
+  font-weight: 300 599;
+  size-adjust: 107.19%; ascent-override: 91.80%; descent-override: 27.24%; line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Space Grotesk Fallback Roboto';
+  src: local('Roboto Bold'), local('Roboto-Bold');
+  font-weight: 600 900;
+  size-adjust: 106.16%; ascent-override: 92.69%; descent-override: 27.51%; line-gap-override: 0%;
+}
+
 /* ── VARIABLES ── */
 :root {
   --bg:            #080c12;
@@ -14,7 +53,7 @@
   --grad:          linear-gradient(to top right, #E879F9, #6D28D9);
   --border:        rgba(255,255,255,0.10);
   --border-hover:  rgba(255,255,255,0.18);
-  --font-h:        'Space Grotesk Variable', 'Space Grotesk', sans-serif;
+  --font-h:        'Space Grotesk Variable', 'Space Grotesk Fallback', 'Space Grotesk Fallback Roboto', sans-serif;
   --font-b:        'DM Sans Variable', 'DM Sans', sans-serif;
   --r:             12px;
   --r-sm:          8px;
