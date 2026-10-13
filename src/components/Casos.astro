@@ -8,26 +8,26 @@
 
     <div class="cases-grid">
       <div class="case-card reveal">
-        <p class="case-client">Joyería Ventum — joyeriaventum.cl</p>
+        <a class="case-client" href="https://joyeriaventum.cl" target="_blank" rel="noopener noreferrer">Joyería Ventum — joyeriaventum.cl ↗</a>
         <h3>Agente "Santiago" en WhatsApp</h3>
         <p>Atiende consultas de joyería las 24 horas, navega el catálogo de Shopify y agenda visitas a sala vía Calendly — todo desde WhatsApp. El equipo puede tomar cualquier conversación en tiempo real.</p>
         <div class="tags">
           <span class="tag">WhatsApp Business</span>
-          <span class="tag">Shopify API</span>
-          <span class="tag">Calendly</span>
-          <span class="tag">Control BOT/Humano</span>
-          <span class="tag">3 flujos activos</span>
+          <span class="tag">Catálogo de productos</span>
+          <span class="tag">Agenda automática</span>
+          <span class="tag">Traspaso a un asesor</span>
+          <span class="tag">3 procesos automatizados</span>
         </div>
       </div>
       <div class="case-card reveal">
-        <p class="case-client">portalfirma.cl — Firma electrónica</p>
+        <a class="case-client" href="https://portalfirma.cl" target="_blank" rel="noopener noreferrer">portalfirma.cl — Firma electrónica ↗</a>
         <h3>Notificaciones notariales vía WhatsApp</h3>
         <p>Los clientes reciben actualizaciones automáticas de sus trámites por WhatsApp — desde el inicio hasta la entrega del documento legalizado. Pipeline validado de extremo a extremo.</p>
         <div class="tags">
-          <span class="tag">Meta Graph API</span>
-          <span class="tag">5 templates aprobados</span>
-          <span class="tag">Idempotencia</span>
-          <span class="tag">Callback asíncrono</span>
+          <span class="tag">WhatsApp automatizado</span>
+          <span class="tag">5 tipos de aviso</span>
+          <span class="tag">Sin mensajes duplicados</span>
+          <span class="tag">Aviso en tiempo real</span>
         </div>
       </div>
     </div>
@@ -43,7 +43,8 @@
   .cases-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
   .case-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--r); padding: 36px; transition: border-color var(--ease), transform var(--ease); }
   .case-card:hover { border-color: var(--accent-border); transform: translateY(-2px); box-shadow: 0 0 32px rgba(168,85,247,0.13); }
-  .case-client { font-family: var(--font-h); font-size: 0.72rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+  .case-client { display: inline-block; font-family: var(--font-h); font-size: 0.72rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; text-decoration: none; transition: color var(--ease); }
+  .case-client:hover { color: var(--accent); }
   .case-card h3 { font-family: var(--font-h); font-size: 1.2rem; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 12px; }
   .case-card p { color: var(--text-secondary); font-size: 0.875rem; line-height: 1.65; font-weight: 300; margin-bottom: 24px; }
   @media (max-width: 640px) {
