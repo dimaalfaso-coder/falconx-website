@@ -13,5 +13,13 @@
   // Sin dirección fija: el destino sale del secreto CONTACT_TO (el repo es público).
   // Debe ser una dirección verificada en Email Routing → envío gratis.
   "send_email": [{ "name": "CONTACT_EMAIL" }],
+  // URL de prueba falconx.falconx-astro.workers.dev (canonical apunta a falconx.cl)
+  "workers_dev": true,
+  "preview_urls": false,
+  // Dominios propios (Cloudflare crea los registros DNS y el certificado)
+  "routes": [
+    { "pattern": "falconx.cl", "custom_domain": true },
+    { "pattern": "www.falconx.cl", "custom_domain": true }
+  ],
   "observability": { "enabled": true }
 }
