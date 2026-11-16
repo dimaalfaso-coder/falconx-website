@@ -23,8 +23,12 @@
       </div>
 
       <div class="reveal">
-        <form class="form" id="contactForm" name="contacto" data-netlify="true" novalidate>
-          <input type="hidden" name="form-name" value="contacto">
+        <form class="form" id="contactForm" name="contacto" novalidate>
+          <!-- Honeypot antispam: invisible para personas, los bots lo llenan -->
+          <div class="hp" aria-hidden="true">
+            <label for="sitio_web">No completar</label>
+            <input type="text" id="sitio_web" name="sitio_web" tabindex="-1" autocomplete="off">
+          </div>
           <div class="form-row">
             <div class="fg"><label for="nombre">Nombre *</label><input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required autocomplete="name"></div>
             <div class="fg"><label for="empresa">Empresa</label><input type="text" id="empresa" name="empresa" placeholder="Nombre de tu empresa" autocomplete="organization"></div>
@@ -50,6 +54,7 @@
             <textarea id="mensaje" name="mensaje" placeholder="¿Qué proceso quieres automatizar? ¿Qué sistemas usas hoy?"></textarea>
           </div>
           <button type="submit" class="btn btn-primary btn-submit">Enviar solicitud</button>
+          <p class="form-fail" id="formFail" role="alert" hidden>No pudimos enviar tu mensaje. Inténtalo de nuevo o escríbenos a <a href="mailto:contacto@falconx.cl">contacto@falconx.cl</a>.</p>
         </form>
         <div class="form-ok" id="formOk">
           <div class="ok-particles" id="okParticles"></div>
@@ -95,6 +100,9 @@
   .btn-submit { width: 100%; padding: 14px; font-size: 0.95rem; }
   .form-error { color: #f87171; font-size: 0.75rem; margin-top: 2px; display: none; }
   .fg input.invalid, .fg textarea.invalid { border-color: #f87171; }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .form-fail { color: #f87171; font-size: 0.85rem; line-height: 1.5; text-align: center; }
+  .form-fail a { color: inherit; }
 
   /* ── Success panel ── */
   .form-ok {
@@ -235,27 +243,35 @@
 
     if (!valid) return;
 
-    const btn = this.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+    const btn  = this.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+    const fail = document.getElementById('formFail');
+    if (fail) fail.hidden = true;
     if (btn) { btn.disabled = true; btn.textContent = 'Enviando...'; }
+
+    const showFail = () => {
+      if (btn) { btn.disabled = false; btn.textContent = 'Enviar solicitud'; }
+      if (fail) fail.hidden = false;
+    };
 
     try {
       const formData = new FormData(this);
       const params   = new URLSearchParams();
       formData.forEach((value, key) => params.append(key, value.toString()));
 
-      const res = await fetch('/', {
+      const res = await fetch('/api/contacto', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: params.toString(),
       });
 
       if (res.ok) {
+        if (btn) { btn.disabled = false; btn.textContent = 'Enviar solicitud'; }
         showSuccess();
       } else {
-        if (btn) { btn.disabled = false; btn.textContent = 'Enviar solicitud'; }
+        showFail();
       }
     } catch {
-      if (btn) { btn.disabled = false; btn.textContent = 'Enviar solicitud'; }
+      showFail();
     }
   });
 
